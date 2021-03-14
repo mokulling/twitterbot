@@ -11,7 +11,7 @@ formatted = today.strftime('%Y%m%d')
 
 newFormat = int(formatted)
 
-print(newFormat)
+# print(newFormat)
 
 
 auth = tweepy.OAuthHandler("", "")
@@ -46,15 +46,21 @@ response = requests.request("GET", url, headers=headers, params=querystring)
 
 games = json.loads(response.text)
 
-print(games)
+game_values = games['mlb_broadcast_info']
 
-# print(games)
+newgame = game_values['queryResults']
 
-# for game in games:
-#         try: 
-#             print(game)
-#         except KeyError:
-#             print("Error")
+realgame = newgame['row']
+
+
+
+# print(realgame)
+
+for thisgame in realgame:
+    if thisgame['home_team_abbrev'] or thisgame['away_team_abbrev'] == "SD":
+        print(thisgame)
+
+
 
 
 api = tweepy.API(auth, wait_on_rate_limit=True,
@@ -62,11 +68,11 @@ wait_on_rate_limit_notify=True)
 
 
 
-try: 
-    api.verify_credentials()
-    print("Authentication ok")
-except:
-    print("error")
+# try: 
+#     api.verify_credentials()
+#     print("Authentication ok")
+# except:
+#     print("error")
 
 # # api.update_status("Test")
 
